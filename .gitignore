@@ -1,0 +1,7 @@
+node_modules/
+data/
+config.json
+*.ipa
+ios/build/
+ios/Sipp.xcodeproj/
+.DS_Store

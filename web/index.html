@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="照片同步">
+<meta name="theme-color" content="#0b0f14">
+<title>照片同步 · sync-iphone-pic</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="app.css?v=2">
+</head>
+<body>
+<header>
+  <div class="brand"><span class="logo">⇪</span> 照片同步</div>
+  <div class="net"><span id="netDot" class="dot ok"></span><span id="netText">已连接</span></div>
+</header>
+
+<div id="serverInfo" class="serverInfo">服务器就绪</div>
+
+<nav>
+  <button id="tabSync" class="active" onclick="location.hash=''">同步</button>
+  <button id="tabBrowse" onclick="location.hash='#/browse'">浏览</button>
+</nav>
+
+<main>
+  <section id="view-sync">
+    <div class="card">
+      <label class="lbl" for="albumInput">相册名（服务端将按此建目录）</label>
+      <input id="albumInput" list="albumList" placeholder="例如：家人 / 旅行 / 留空=未整理" autocomplete="off">
+      <datalist id="albumList"></datalist>
+      <p class="hint">想按 iPhone 相册结构归档：每轮在系统选择器里选<b>同一个相册</b>的照片并保持上面的相册名一致。同名照片会按内容去重，重复选择不会产生重复文件。</p>
+    </div>
+
+    <button id="pickBtn" class="primary">选择照片 / 视频</button>
+    <input id="fileInput" type="file" multiple hidden>
+
+    <div id="recoverCard" class="card warn hidden">
+      <div id="recoverText"></div>
+      <div class="btnrow">
+        <button id="recoverBtn" class="small primary">继续（重选照片）</button>
+        <button id="recoverDismiss" class="small">忽略</button>
+      </div>
+    </div>
+
+    <div id="batchCard" class="card hidden">
+      <div id="batchTitle" class="batchTitle"></div>
+      <div class="progressWrap"><div id="batchBar"></div></div>
+      <div class="rowline"><span id="batchPhase"></span><span id="batchCounters"></span></div>
+      <div id="fileRows"></div>
+      <div class="btnrow">
+        <button id="pauseBtn" class="small hidden">暂停</button>
+        <button id="resumeBtn" class="small hidden">继续</button>
+        <button id="stopBtn" class="small danger hidden">停止本批</button>
+      </div>
+    </div>
+
+    <div id="nextWrap" class="hidden">
+      <button id="nextBatchBtn" class="primary big"></button>
+      <p class="hint center">iOS 选择器没有"全选"：每轮尽量多选（先试 100–300 张，稳定后再加量），选满后回到这里点继续。直到某一批"全部已存在"即完成全量。</p>
+    </div>
+
+    <div class="card" id="sessionCard"><span id="sessionStats">…</span></div>
+
+    <div class="card tips">
+      <b>全量同步前建议</b>
+      <ul>
+        <li>iCloud 照片 → 开「下载并保留原片」（否则传的是压缩版或要等云端下载）。</li>
+        <li>设置 → 显示与亮度 → 自动锁定 → 永不（上传需保持前台亮屏）。</li>
+        <li>低电量模式会更激进地冻结页面，尽量插电并关闭。</li>
+        <li>Live Photo 只会传静态图（网页拿不到配对的视频）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="view-browse" class="hidden">
+    <div class="card filters">
+      <select id="browseAlbum"><option value="">全部相册</option></select>
+      <select id="browseMonth"><option value="">全部月份</option></select>
+      <span id="browseCount"></span>
+    </div>
+    <div id="browseGrid" class="grid"></div>
+    <button id="browseMore" class="secondary">加载更多</button>
+  </section>
+</main>
+
+<div id="lightbox" class="hidden"></div>
+<div id="toast"></div>
+
+<script type="module" src="app.js?v=2"></script>
+</body>
+</html>

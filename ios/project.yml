@@ -1,0 +1,39 @@
+name: Sipp
+options:
+  bundleIdPrefix: local.sipp
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "16.0"
+targets:
+  Sipp:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sipp
+    info:
+      path: Sipp/Info.plist
+      properties:
+        CFBundleDisplayName: 照片同步
+        CFBundleShortVersionString: 1.0.0
+        CFBundleVersion: 1
+        NSPhotoLibraryUsageDescription: 读取照片和视频，同步到局域网电脑
+        NSLocalNetworkUsageDescription: 连接局域网内的电脑上传照片
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.sipp.app
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGNING_ALLOWED: NO
+        INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+schemes:
+  Sipp:
+    build:
+      targets:
+        Sipp: all

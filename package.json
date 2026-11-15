@@ -1,0 +1,23 @@
+{
+  "name": "sync-iphone-pic",
+  "version": "1.0.0",
+  "description": "LAN photo/video sync: Windows PC runs the server, iPhone uploads via Safari web app (chunked resumable, dedup, album folders)",
+  "private": true,
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "qr": "node scripts/print-qr.js",
+    "firewall": "powershell -ExecutionPolicy Bypass -File scripts/firewall.ps1",
+    "stress": "node scripts/stress-upload.js"
+  },
+  "dependencies": {
+    "exifr": "^7.1.3"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.17.0",
+    "qrcode": "^1.5.4"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}
