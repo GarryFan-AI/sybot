@@ -20,6 +20,7 @@ targets:
         NSLocalNetworkUsageDescription: 连接局域网内的电脑上传照片
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
+        UIUserInterfaceStyle: Dark
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
