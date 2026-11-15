@@ -14,6 +14,7 @@ struct RootView: View {
     @State private var albums: [AlbumEntry] = []
     @State private var perm: PHAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
     @State private var healthMsg = ""
+    @State private var statsMsg = ""
 
     var body: some View {
         if uploader.running {
@@ -41,12 +42,18 @@ struct RootView: View {
                                 let free = Uploader.fmtBytes((h["freeBytes"] as? NSNumber)?.int64Value ?? 0)
                                 healthMsg = "✓ 连接正常 v\(h["version"] as? String ?? "?")，磁盘剩余 \(free)"
                                 server.save()
+                                if let s = try? await server.stats() {
+                                    statsMsg = Self.statsText(s)
+                                }
                             } catch {
                                 healthMsg = "✗ \(Self.errText(error))"
                             }
                         }
                     }
                     Text(healthMsg).font(.footnote).foregroundStyle(.secondary)
+                    if !statsMsg.isEmpty {
+                        Text(statsMsg).font(.footnote).foregroundStyle(.secondary)
+                    }
                 } header: {
                     Text("电脑服务")
                 }
@@ -91,6 +98,9 @@ struct RootView: View {
             .task {
                 perm = Lib.status
                 if perm == .authorized || perm == .limited { albums = Lib.albums() }
+                if server.base != nil, let s = try? await server.stats() {
+                    statsMsg = Self.statsText(s)
+                }
             }
         }
     }
@@ -105,6 +115,17 @@ struct RootView: View {
     static func errText(_ e: Error) -> String {
         if let ae = e as? ApiErr { return "\(ae.code) \(ae.message)" }
         return e.localizedDescription
+    }
+
+    static func statsText(_ s: Stats) -> String {
+        var t = "电脑已入库 \(s.count) 个（\(Uploader.fmtBytes(s.bytes))）"
+        if s.receivingCount > 0 { t += "，在途 \(s.receivingCount) 个" }
+        if let d = s.lastCompletedAt {
+            let f = DateFormatter()
+            f.dateFormat = "MM-dd HH:mm"
+            t += "，最近 \(f.string(from: d))"
+        }
+        return t
     }
 }
 

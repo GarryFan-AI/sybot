@@ -92,6 +92,20 @@ final class Server: ObservableObject {
     }
 
     func health() async throws -> [String: Any] { try await getJSON("api/health") }
+
+    /// 服务端累计入库统计（跨会话总量，来自 /api/stats）
+    func stats() async throws -> Stats {
+        let r = try await getJSON("api/stats")
+        let t = r["total"] as? [String: Any] ?? [:]
+        let recv = r["receiving"] as? [String: Any]
+        let lastMs = (r["lastCompletedAt"] as? NSNumber)?.doubleValue
+        return Stats(
+            count: (t["count"] as? NSNumber)?.intValue ?? 0,
+            bytes: (t["bytes"] as? NSNumber)?.int64Value ?? 0,
+            receivingCount: (recv?["count"] as? NSNumber)?.intValue ?? 0,
+            lastCompletedAt: lastMs.map { Date(timeIntervalSince1970: $0 / 1000) }
+        )
+    }
 }
 
 struct ApiErr: Error {
@@ -101,4 +115,11 @@ struct ApiErr: Error {
     let have: Int?
     let retryAfterMs: Int?
     let status: Int
+}
+
+struct Stats {
+    let count: Int             // 已入库资产数
+    let bytes: Int64           // 已入库总字节
+    let receivingCount: Int    // 在途（含中断遗留）上传数
+    let lastCompletedAt: Date? // 最近入库时间
 }
