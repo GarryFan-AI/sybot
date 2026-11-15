@@ -1,7 +1,7 @@
 // IndexedDB 元数据缓存。只存元数据（批次、最近相册、累计统计），绝不存 File/Blob；
 // 续传状态以服务端为唯一可信源（Safari ITP 7 天会清站点数据，丢了最多重选一次相册）。
 
-const DB_NAME = 'sipp';
+const DB_NAME = 'sybot';
 const DB_VERSION = 1;
 
 function openDb() {
@@ -22,7 +22,7 @@ let idbOk = 'indexedDB' in window;
 export const store = {
   async get(key) {
     if (!idbOk) {
-      try { return JSON.parse(localStorage.getItem('sipp:' + key)); } catch { return undefined; }
+      try { return JSON.parse(localStorage.getItem('sybot:' + key)); } catch { return undefined; }
     }
     try {
       const db = await openDb();
@@ -40,7 +40,7 @@ export const store = {
 
   async set(key, value) {
     if (!idbOk) {
-      try { localStorage.setItem('sipp:' + key, JSON.stringify(value)); } catch { /* */ }
+      try { localStorage.setItem('sybot:' + key, JSON.stringify(value)); } catch { /* */ }
       return;
     }
     try {

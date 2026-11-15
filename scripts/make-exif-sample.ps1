@@ -1,5 +1,5 @@
 # 生成带真实 EXIF 的 JPEG（System.Drawing PropertyItem），供 exifr 验证
-param([string]$OutDir = "$env:TEMP\sipp-exif-sample")
+param([string]$OutDir = "$env:TEMP\sybot-exif-sample")
 Add-Type -AssemblyName System.Drawing
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 

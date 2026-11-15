@@ -3,5 +3,5 @@ data/
 config.json
 *.ipa
 ios/build/
-ios/Sipp.xcodeproj/
+ios/Sybot.xcodeproj/
 .DS_Store

@@ -122,7 +122,7 @@ final class Uploader: ObservableObject {
     private func uploadOne(_ m: AssetMeta, albumTag: String) async throws {
         currentName = m.name
         let tmp = FileManager.default.temporaryDirectory
-            .appendingPathComponent("sipp-\(UUID().uuidString)")
+            .appendingPathComponent("sybot-\(UUID().uuidString)")
         try await Self.writeOriginal(m, to: tmp)
         defer { try? FileManager.default.removeItem(at: tmp) }
 

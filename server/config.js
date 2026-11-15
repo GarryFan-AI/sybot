@@ -49,16 +49,16 @@ function load() {
 
   const cfg = { ...DEFAULTS, ...fileCfg };
 
-  // 环境变量覆盖（SIPP_ 前缀）
-  if (process.env.SIPP_PORT) cfg.port = Number(process.env.SIPP_PORT);
-  if (process.env.SIPP_ACCESS_KEY) cfg.accessKey = process.env.SIPP_ACCESS_KEY;
-  if (process.env.SIPP_STORAGE_ROOT) cfg.storageRoot = path.resolve(process.env.SIPP_STORAGE_ROOT);
-  if (process.env.SIPP_INCOMING_TTL_HOURS) cfg.incomingTtlHours = Number(process.env.SIPP_INCOMING_TTL_HOURS);
+  // 环境变量覆盖（SYBOT_ 前缀）
+  if (process.env.SYBOT_PORT) cfg.port = Number(process.env.SYBOT_PORT);
+  if (process.env.SYBOT_ACCESS_KEY) cfg.accessKey = process.env.SYBOT_ACCESS_KEY;
+  if (process.env.SYBOT_STORAGE_ROOT) cfg.storageRoot = path.resolve(process.env.SYBOT_STORAGE_ROOT);
+  if (process.env.SYBOT_INCOMING_TTL_HOURS) cfg.incomingTtlHours = Number(process.env.SYBOT_INCOMING_TTL_HOURS);
 
   if (!cfg.accessKey) {
     cfg.accessKey = generateKey();
     // 写回文件以便下次一致（环境变量指定时以环境变量为准，不写文件）
-    if (!process.env.SIPP_ACCESS_KEY) {
+    if (!process.env.SYBOT_ACCESS_KEY) {
       atomicWriteJson(cfgFile, cfg);
       console.log(`[config] 已生成访问密钥并写入 config.json`);
     }

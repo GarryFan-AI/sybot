@@ -70,17 +70,17 @@ async function injectFiles(n, sizeBase, mtimeBase) {
 // —— 场景 1：新文件全量上传 ——
 await page.evaluate((a) => { document.getElementById('albumInput').value = a; }, ALBUM);
 await injectFiles(COUNT, SIZE, MTIME_BASE);
-await page.waitForFunction(() => window.__sipp && window.__sipp.state && !window.__sipp.state.running, { timeout: 180000, polling: 400 });
+await page.waitForFunction(() => window.__sybot && window.__sybot.state && !window.__sybot.state.running, { timeout: 180000, polling: 400 });
 
-const s1 = await page.evaluate(() => ({ ...window.__sipp.state.session }));
+const s1 = await page.evaluate(() => ({ ...window.__sybot.state.session }));
 ok(s1.uploaded === COUNT, `场景1: uploaded=${s1.uploaded} 应为 ${COUNT}`, s1);
 ok(s1.failed === 0, '场景1: failed=0', s1.failed);
 
 // —— 场景 2：同一批重选（全部已存在，零传输） ——
 const before = s1.uploaded;
 await injectFiles(COUNT, SIZE, MTIME_BASE);
-await page.waitForFunction(() => window.__sipp && window.__sipp.state && !window.__sipp.state.running, { timeout: 180000, polling: 400 });
-const s2 = await page.evaluate(() => ({ ...window.__sipp.state.session }));
+await page.waitForFunction(() => window.__sybot && window.__sybot.state && !window.__sybot.state.running, { timeout: 180000, polling: 400 });
+const s2 = await page.evaluate(() => ({ ...window.__sybot.state.session }));
 ok(s2.uploaded === before, `场景2: 第二轮 uploaded 不变（${s2.uploaded}）`, s2);
 ok(s2.skipped >= COUNT, `场景2: 第二轮 skipped ≥ ${COUNT}（同内容指纹命中）`, s2.skipped);
 
@@ -121,8 +121,8 @@ await page.reload({ waitUntil: 'networkidle2' });
 await new Promise((r) => setTimeout(r, 1200));
 await page.evaluate((tag) => { document.getElementById('albumInput').value = '浏览器E2E'; }, TAG3);
 await page.evaluate(scene3Source(), TAG3, SIZE3, MTIME_BASE, SEED);
-await page.waitForFunction(() => window.__sipp && window.__sipp.state && !window.__sipp.state.running, { timeout: 240000, polling: 500 });
-const s3 = await page.evaluate(() => ({ ...window.__sipp.state.session }));
+await page.waitForFunction(() => window.__sybot && window.__sybot.state && !window.__sybot.state.running, { timeout: 240000, polling: 500 });
+const s3 = await page.evaluate(() => ({ ...window.__sybot.state.session }));
 const dUp = s3.uploaded - before3.uploaded, dSkip = s3.skipped - before3.skipped;
 ok(dUp + dSkip === 6, `场景3: 刷新重选后 6 个全部到位（补传 ${dUp} + 秒跳 ${dSkip}）`, s3);
 

@@ -2,7 +2,7 @@ import SwiftUI
 import Photos
 
 @main
-struct SippApp: App {
+struct SybotApp: App {
     var body: some Scene {
         WindowGroup { RootView() }
     }

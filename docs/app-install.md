@@ -1,4 +1,4 @@
-# iPhone 原生 App（Sipp）安装指南
+# iPhone 原生 App（Sybot）安装指南
 
 Windows 上没有 macOS/Xcode，无法直接编译 iOS 应用。流程：
 
@@ -12,15 +12,15 @@ App 用完你的免费 Apple ID 签名，**有效期 7 天**，到期重新装�
 
 ## 一、首次准备（约 15 分钟）
 
-1. **GitHub 账号**：注册 github.com，新建一个**私有**仓库（如 `sync-iphone-pic`）。
+1. **GitHub 账号**：注册 github.com，新建一个**私有**仓库（如 `sybot`）。
 2. 把本项目推上去（在项目目录执行，按提示登录）：
 
    ```bash
-   git remote add origin https://github.com/<你的用户名>/sync-iphone-pic.git
+   git remote add origin https://github.com/<你的用户名>/sybot.git
    git push -u origin main
    ```
 
-3. **触发云构建**：GitHub 网页 → 仓库 → Actions → `ios-build` → Run workflow；或直接 push `ios/` 下的改动自动触发。约 3–5 分钟后，构建页底部 **Artifacts** 下载 `Sipp-unsigned-ipa`（是个 zip，解压出 `Sipp.ipa`）。
+3. **触发云构建**：GitHub 网页 → 仓库 → Actions → `ios-build` → Run workflow；或直接 push `ios/` 下的改动自动触发。约 3–5 分钟后，构建页底部 **Artifacts** 下载 `Sybot-unsigned-ipa`（是个 zip，解压出 `Sybot.ipa`）。
 4. **Windows 装 USB 驱动**：Microsoft Store 装「Apple Devices」（或装 iTunes），手机插 USB 点「信任」。
 5. **iPhone 开发者模式**：设置 → 隐私与安全性 → 开发者模式 → 开启（会要求重启）。
 6. **装 Sideloadly**：sideloadly.io 下载 Windows 版并安装。
@@ -28,7 +28,7 @@ App 用完你的免费 Apple ID 签名，**有效期 7 天**，到期重新装�
 ## 二、安装到手机（每次 2 分钟）
 
 1. 手机插电脑，打开 Sideloadly。
-2. 拖入 `Sipp.ipa`，填你的 Apple ID，点 **Start**。
+2. 拖入 `Sybot.ipa`，填你的 Apple ID，点 **Start**。
 3. 完成后手机桌面出现「照片同步」。
 4. 首次打开：允许照片访问（选**所有照片**）、允许本地网络。
 

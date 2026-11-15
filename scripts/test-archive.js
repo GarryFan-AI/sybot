@@ -60,7 +60,7 @@ async function upload(name, buf, album, mtime) {
 }
 
 (async () => {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sipp-arch-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sybot-arch-'));
   const RUN = String(Date.now()).slice(-6);
   const t0 = 1735689600000; // 2025-01-01T00:00:00Z（+08 → 2025-01-01 08:00）
 

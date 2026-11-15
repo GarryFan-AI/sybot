@@ -68,11 +68,11 @@ function makeMov(dir, mvhdSecs) {
 }
 
 (async () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sipp-exif-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sybot-exif-'));
 
   // 1) 真实样张（Pillow 生成，"2024:01:15 08:30:00" + "+02:00"）：
   //    真 epoch = 2024-01-15T06:30:00Z = 1705300200000
-  const sample = path.join(os.tmpdir(), 'sipp-exif-sample', 'exif-real.jpg');
+  const sample = path.join(os.tmpdir(), 'sybot-exif-sample', 'exif-real.jpg');
   let jpg;
   if (fs.existsSync(sample)) jpg = sample;
   else jpg = makeExifJpeg(dir, '2024:01:15 08:30:00', '+02:00'); // 合成样张结构自造，可能不被 exifr 认
@@ -87,7 +87,7 @@ function makeMov(dir, mvhdSecs) {
   ok(md1.month === '2024-01' && md1.day === '2024-01-15', '月/日归档正确', md1);
 
   // 2) 无 OffsetTime 的真实样张（老设备场景）：按服务器本地时区解释
-  const sample2 = path.join(os.tmpdir(), 'sipp-exif-sample', 'exif-nooffset.jpg');
+  const sample2 = path.join(os.tmpdir(), 'sybot-exif-sample', 'exif-nooffset.jpg');
   if (fs.existsSync(sample2)) {
     const r2 = await captureDate(sample2, { mtimeMs: 0 });
     ok(r2.source === 'exif', '无偏移 EXIF 也走 exif 分支', r2);

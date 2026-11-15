@@ -16,7 +16,7 @@ page.on('requestfailed', (r) => console.log('[reqfail]', r.url().slice(-60), r.f
 
 await page.goto(`http://127.0.0.1:5284/k/${KEY}/`, { waitUntil: 'networkidle2', timeout: 30000 });
 console.log('title:', await page.title());
-console.log('typeof __sipp:', await page.evaluate(() => typeof window.__sipp));
+console.log('typeof __sybot:', await page.evaluate(() => typeof window.__sybot));
 
 await page.evaluate(() => {
   const dt = new DataTransfer();
@@ -41,15 +41,15 @@ const t = await page.evaluate(async () => {
   return { setMs: t1 - t0, getMs: performance.now() - t1, v };
 });
 console.log('IDB 探测:', JSON.stringify(t));
-const st = await page.evaluate(() => (window.__sipp ? {
-  running: window.__sipp.state.running,
-  engineNull: window.__sipp.state.engine === null,
-  engineStopped: window.__sipp.state.engine ? window.__sipp.state.engine.stopped : null,
-  engineFrozen: window.__sipp.state.engine ? window.__sipp.state.engine.frozen : null,
-  enginePaused: window.__sipp.state.engine ? window.__sipp.state.engine.paused : null,
-  engineStats: window.__sipp.state.engine ? window.__sipp.state.engine.stats : null,
-  engineJobs: window.__sipp.state.engine ? window.__sipp.state.engine.jobs.map(j=>j.state).join(',') : null,
-  session: window.__sipp.state.session,
+const st = await page.evaluate(() => (window.__sybot ? {
+  running: window.__sybot.state.running,
+  engineNull: window.__sybot.state.engine === null,
+  engineStopped: window.__sybot.state.engine ? window.__sybot.state.engine.stopped : null,
+  engineFrozen: window.__sybot.state.engine ? window.__sybot.state.engine.frozen : null,
+  enginePaused: window.__sybot.state.engine ? window.__sybot.state.engine.paused : null,
+  engineStats: window.__sybot.state.engine ? window.__sybot.state.engine.stats : null,
+  engineJobs: window.__sybot.state.engine ? window.__sybot.state.engine.jobs.map(j=>j.state).join(',') : null,
+  session: window.__sybot.state.session,
 } : { none: true }));
 console.log('state:', JSON.stringify(st));
 const partDir = 'data/storage/.incoming';

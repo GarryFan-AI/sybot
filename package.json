@@ -1,5 +1,5 @@
 {
-  "name": "sync-iphone-pic",
+  "name": "sybot",
   "version": "1.0.0",
   "description": "LAN photo/video sync: Windows PC runs the server, iPhone uploads via Safari web app (chunked resumable, dedup, album folders)",
   "private": true,

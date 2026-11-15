@@ -64,7 +64,7 @@ async function main() {
   // 打印候选地址 + 二维码（qrcode 为 devDependency，缺失时只打印地址）
   const urls = candidateUrls(cfg.port);
   console.log('\n==============================================');
-  console.log('  sync-iphone-pic 已启动');
+  console.log('  sybot 已启动');
   console.log('  用 iPhone（同一 Wi-Fi）扫描二维码或打开下面的地址：');
   urls.forEach((u) => console.log('    ' + u));
   console.log(`  存储目录: ${cfg.storageRoot}`);
@@ -150,10 +150,10 @@ async function handleRequest(ctx, { cfg, access, router }) {
 function landingHtml() {
   return `<!doctype html><html lang="zh"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>sync-iphone-pic</title>
+<title>sybot</title>
 <style>body{font-family:-apple-system,sans-serif;display:grid;place-items:center;height:100vh;margin:0;color:#333;background:#f6f7f9}div{text-align:center;max-width:32em;padding:1em;line-height:1.7}</style>
 </head><body><div>
-<h2>sync-iphone-pic 服务正在运行</h2>
+<h2>sybot 服务正在运行</h2>
 <p>请用电脑上显示的<b>带密钥链接</b>或扫码打开同步页面。<br>直接访问根路径不带密钥是不行的：链接形如 <code>http://电脑IP:端口/k/密钥/</code></p>
 </div></body></html>`;
 }

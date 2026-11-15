@@ -22,7 +22,7 @@ node scripts/test-sha256.mjs     # 纯 JS SHA-256 对照
 
 ## iOS 原生 App（ios/）
 
-- `ios/Sipp/`（约 800 行 Swift）：`Uploader.swift`（分块续传状态机，同一套 HTTP 协议）、`Server.swift`（URLSession + UserDefaults 存配置）、`Library.swift`（PHAsset 遍历/导出）、`SippApp.swift`。PHAsset 原文件直传（HEIC 不转码），支持视频和 Live Photo 配对 .MOV，同步期间 `isIdleTimerDisabled` 防息屏。
+- `ios/Sybot/`（约 800 行 Swift）：`Uploader.swift`（分块续传状态机，同一套 HTTP 协议）、`Server.swift`（URLSession + UserDefaults 存配置）、`Library.swift`（PHAsset 遍历/导出）、`SybotApp.swift`。PHAsset 原文件直传（HEIC 不转码），支持视频和 Live Photo 配对 .MOV，同步期间 `isIdleTimerDisabled` 防息屏。
 - **本机无 macOS/Xcode**：`project.yml` 是 xcodegen 工程描述，Xcode 工程由 `.github/workflows/ios.yml` 在 `macos-14` 上 `xcodegen generate` + `xcodebuild`（未签名）生成，产物为未签名 IPA，用户用 Sideloadly 免费签名安装（7 天有效）。推送 `ios/**` 自动触发云构建。**不要尝试在 Windows 本地构建 iOS**。
 
 ## 架构速记
@@ -40,4 +40,4 @@ node scripts/test-sha256.mjs     # 纯 JS SHA-256 对照
 - 在 bash 里用 `node -e` 打补丁后，Edit 工具可能基于陈旧快照；改文件优先 Write 全量重写 + grep 验证。
 - Git Bash 下 curl 传中文会乱码（控制台编码），测 UTF-8 链路用 node fetch。
 - 服务端重启后分块 token 失效（HMAC 随机密钥）属预期：客户端 init 重试即可恢复。
-- 配置在 `config.json`（首次运行自动生成），环境变量 `SIPP_PORT`/`SIPP_ACCESS_KEY`/`SIPP_STORAGE_ROOT` 等可覆盖；`storageRoot` 默认 `data/storage`，可指向其他盘。
+- 配置在 `config.json`（首次运行自动生成），环境变量 `SYBOT_PORT`/`SYBOT_ACCESS_KEY`/`SYBOT_STORAGE_ROOT` 等可覆盖；`storageRoot` 默认 `data/storage`，可指向其他盘。

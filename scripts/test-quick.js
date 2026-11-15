@@ -36,7 +36,7 @@ const ok = (c, m, x) => { if (c) { pass++; console.log('  ✓', m); } else { fai
   ok(Date.now() - t0 < 3000, 'exists 秒级返回', { ms: Date.now() - t0 });
 
   // 3) multipart 直传
-  const boundary = '----sipp' + RUN;
+  const boundary = '----sybot' + RUN;
   const mb = crypto.randomBytes(300 * 1024);
   const mp = Buffer.concat([
     Buffer.from(`--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="IMG_8${RUN}.HEIC"\r\nContent-Type: public.heic\r\n\r\n`),
@@ -53,7 +53,7 @@ const ok = (c, m, x) => { if (c) { pass++; console.log('  ✓', m); } else { fai
   ok((j3.relPath || '').startsWith('朋友/'), 'multipart 相册目录', j3.relPath);
 
   // 4) 大文件流式直传（30MB，不应撑内存）
-  const big = path.join(os.tmpdir(), `sipp-quick-big-${RUN}.bin`);
+  const big = path.join(os.tmpdir(), `sybot-quick-big-${RUN}.bin`);
   const bigBuf = crypto.randomBytes(30 * 1024 * 1024);
   fs.writeFileSync(big, bigBuf);
   const bigSha = crypto.createHash('sha256').update(bigBuf).digest('hex');

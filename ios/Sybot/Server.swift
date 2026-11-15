@@ -18,14 +18,14 @@ final class Server: ObservableObject {
 
     init() {
         let d = UserDefaults.standard
-        host = d.string(forKey: "sipp.host") ?? "http://172.22.1.188:5284"
-        key = d.string(forKey: "sipp.key") ?? ""
+        host = d.string(forKey: "sybot.host") ?? "http://172.22.1.188:5284"
+        key = d.string(forKey: "sybot.key") ?? ""
     }
 
     func save() {
         let d = UserDefaults.standard
-        d.set(host, forKey: "sipp.host")
-        d.set(key, forKey: "sipp.key")
+        d.set(host, forKey: "sybot.host")
+        d.set(key, forKey: "sybot.key")
     }
 
     var base: URL? {

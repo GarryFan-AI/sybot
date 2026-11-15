@@ -42,7 +42,7 @@ function makeExifJpeg(dir, dto, ot) {
 }
 
 (async () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sipp-dbg-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sybot-dbg-'));
   const jpg = makeExifJpeg(dir, '2024:01:15 08:30:00', '+02:00');
   const buf = fs.readFileSync(jpg);
   const out = await exifr.parse(buf, { tiff: true, exif: true, ifd0: false, gps: false, xmp: false, iptc: false, silentErrors: true });

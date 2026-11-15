@@ -1,4 +1,4 @@
-# sync-iphone-pic
+# sybot
 
 局域网 iPhone 照片/视频同步到电脑。电脑跑一个 Node 服务端，iPhone 用 Safari 打开网页即可批量上传，支持**断点续传、增量去重、相册结构归档**。类 LocalSend 的定位，但专门解决"整库照片备份"这件事——LocalSend 本身无断点续传、无去重跳过、无目录结构（调研结论见下）。
 
@@ -50,7 +50,7 @@ Wi-Fi 若被 Windows 识别为"公用网络"，需改为专用（或放行对应
 | `hashMaxBytes` | 64MB | 客户端做内容哈希的尺寸阈值 |
 | `rateLimitQps` | 200 | 每 IP 限速 |
 
-环境变量 `SIPP_PORT` / `SIPP_ACCESS_KEY` / `SIPP_STORAGE_ROOT` / `SIPP_INCOMING_TTL_HOURS` 可覆盖。
+环境变量 `SYBOT_PORT` / `SYBOT_ACCESS_KEY` / `SYBOT_STORAGE_ROOT` / `SYBOT_INCOMING_TTL_HOURS` 可覆盖。
 
 ## 数据与运维
 

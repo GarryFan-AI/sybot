@@ -4,7 +4,7 @@ import io, os, sys
 from PIL import Image
 import piexif  # pip install piexif
 
-OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.environ.get('TEMP', '/tmp'), 'sipp-exif-sample')
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.environ.get('TEMP', '/tmp'), 'sybot-exif-sample')
 os.makedirs(OUT, exist_ok=True)
 
 img = Image.new('RGB', (120, 90), (70, 130, 180))

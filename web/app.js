@@ -415,4 +415,4 @@ function route() {
 init().catch((e) => { console.error(e); toast('初始化失败：' + e.message, 8000); });
 
 // 测试钩子（无副作用）
-window.__sipp = { get state() { return state; }, onPick };
+window.__sybot = { get state() { return state; }, onPick };

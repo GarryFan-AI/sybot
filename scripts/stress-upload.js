@@ -44,7 +44,7 @@ const BAD_OFFSET = opt('bad-offset', false);
 const DROP_AFTER = Number(opt('drop-after', '0'));
 const RESUME = opt('resume', false);
 
-const TMP = path.join(os.tmpdir(), 'sipp-stress');
+const TMP = path.join(os.tmpdir(), 'sybot-stress');
 const STATE_FILE = path.join(TMP, 'state.json');
 
 let pass = 0, fail = 0;

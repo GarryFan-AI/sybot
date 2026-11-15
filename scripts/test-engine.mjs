@@ -28,7 +28,7 @@ class FakeFile {
 }
 
 function makeFiles(n) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sipp-engine-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sybot-engine-'));
   const files = [];
   for (let i = 0; i < n; i++) {
     const size = 100 * 1024 + Math.floor(Math.random() * 900 * 1024);
