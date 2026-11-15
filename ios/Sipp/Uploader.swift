@@ -154,7 +154,7 @@ final class Uploader: ObservableObject {
             while offset < size {
                 if stopFlag { throw UploaderStop() }
                 try fh.seek(toOffset: UInt64(offset))
-                let data = try fh.readData(upToLength: chunkSize)
+                let data = try fh.read(upToCount: chunkSize) ?? Data()
                 if data.isEmpty { break }
                 var backoff: UInt64 = 1_000_000_000
                 chunkRetry: while true {
@@ -352,11 +352,10 @@ final class Uploader: ObservableObject {
 
     private static func writeOriginal(_ m: AssetMeta, to url: URL) async throws {
         let opts = PHAssetResourceRequestOptions()
-        opts.isNetworkAccessAllowed = true
-        opts.version = .original
+        opts.isNetworkAccessAllowed = true   // iCloud 未下载的原件会临时从云端拉取
         try await withCheckedThrowingContinuation { (cont: CheckedContinuation<Void, Error>) in
             PHAssetResourceManager.default().writeData(
-                for: m.asset, resource: m.resource, toFile: url, options: opts
+                for: m.resource, toFile: url, options: opts
             ) { err in
                 if let err { cont.resume(throwing: err) } else { cont.resume() }
             }

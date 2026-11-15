@@ -45,6 +45,11 @@ struct AssetMeta {
 enum Lib {
     static var status: PHAuthorizationStatus { PHPhotoLibrary.authorizationStatus(for: .readWrite) }
 
+    /// PHAssetResource 无公开 fileSize 属性，经 KVC 取（Photos 框架内部有该键）
+    static func fileSize(_ r: PHAssetResource) -> Int {
+        (r.value(forKey: "fileSize") as? NSNumber)?.intValue ?? 0
+    }
+
     static func requestAccess() async -> PHAuthorizationStatus {
         await withCheckedContinuation { cont in
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { s in cont.resume(returning: s) }
@@ -94,12 +99,12 @@ enum Lib {
             ?? rs.first { $0.type == .fullSizePhoto }
         if let r = primary {
             out.append(AssetMeta(asset: a, resource: r, name: r.originalFilename,
-                                 size: r.fileSize, mtimeMs: mtime,
+                                 size: fileSize(r), mtimeMs: mtime,
                                  kind: isVideo ? .video : .photo))
         }
         if a.mediaSubtypes.contains(.photoLive), let pv = rs.first(where: { $0.type == .pairedVideo }) {
             out.append(AssetMeta(asset: a, resource: pv, name: pv.originalFilename,
-                                 size: pv.fileSize, mtimeMs: mtime, kind: .liveVideo))
+                                 size: fileSize(pv), mtimeMs: mtime, kind: .liveVideo))
         }
         return out
     }
