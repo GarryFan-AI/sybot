@@ -9,6 +9,6 @@ jobs:
     steps:
       - run: echo "ubuntu runner OK on $(date -u)"
   macos:
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
-      - run: echo "macos runner OK on $(date -u)"
+      - run: echo "macos-14 runner OK on $(date -u)"
