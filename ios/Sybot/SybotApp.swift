@@ -15,6 +15,8 @@ struct RootView: View {
     @State private var perm: PHAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
     @State private var healthMsg = ""
     @State private var statsMsg = ""
+    @State private var synced: [String: Int] = [:]   // 相册标题 → 服务端已入库数
+    @State private var syncedTotal = 0               // 服务端全库已入库数
 
     var body: some View {
         if uploader.running {
@@ -70,7 +72,7 @@ struct RootView: View {
                                 HStack {
                                     Text(a.title).foregroundStyle(.primary)
                                     Spacer()
-                                    Text("\(a.count) 项").foregroundStyle(.secondary).font(.footnote)
+                                    Text(syncLabel(a)).foregroundStyle(.secondary).font(.footnote)
                                 }
                             }
                         }
@@ -95,14 +97,29 @@ struct RootView: View {
                 }
             }
             .navigationTitle("照片同步")
-            .task {
+            .task(id: uploader.running) {
                 perm = Lib.status
                 if perm == .authorized || perm == .limited { albums = Lib.albums() }
-                if server.base != nil, let s = try? await server.stats() {
-                    statsMsg = Self.statsText(s)
-                }
+                if server.base != nil { refreshStats() }
             }
         }
+    }
+
+    /// 拉取服务端统计：主页累计行 + 各相册已入库数
+    private func refreshStats() {
+        Task {
+            guard let s = try? await server.stats() else { return }
+            statsMsg = Self.statsText(s)
+            synced = s.byAlbum
+            syncedTotal = s.count
+        }
+    }
+
+    /// 相册行的同步进度标签：全同步 ✓，否则 x/y
+    private func syncLabel(_ a: AlbumEntry) -> String {
+        let done = a.isWholeLibrary ? syncedTotal : (synced[a.title] ?? 0)
+        if a.count > 0, done >= a.count { return "✓ \(a.count) 项已同步" }
+        return "已同步 \(done)/\(a.count) 项"
     }
 
     private func start(_ a: AlbumEntry) {

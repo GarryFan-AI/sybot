@@ -99,11 +99,18 @@ final class Server: ObservableObject {
         let t = r["total"] as? [String: Any] ?? [:]
         let recv = r["receiving"] as? [String: Any]
         let lastMs = (r["lastCompletedAt"] as? NSNumber)?.doubleValue
+        var byAlbum: [String: Int] = [:]
+        for row in (r["byAlbum"] as? [[String: Any]]) ?? [] {
+            if let album = row["album"] as? String {
+                byAlbum[album] = (row["n"] as? NSNumber)?.intValue ?? 0
+            }
+        }
         return Stats(
             count: (t["count"] as? NSNumber)?.intValue ?? 0,
             bytes: (t["bytes"] as? NSNumber)?.int64Value ?? 0,
             receivingCount: (recv?["count"] as? NSNumber)?.intValue ?? 0,
-            lastCompletedAt: lastMs.map { Date(timeIntervalSince1970: $0 / 1000) }
+            lastCompletedAt: lastMs.map { Date(timeIntervalSince1970: $0 / 1000) },
+            byAlbum: byAlbum
         )
     }
 }
@@ -122,4 +129,5 @@ struct Stats {
     let bytes: Int64           // 已入库总字节
     let receivingCount: Int    // 在途（含中断遗留）上传数
     let lastCompletedAt: Date? // 最近入库时间
+    let byAlbum: [String: Int] // 相册标题 → 服务端已入库数
 }
